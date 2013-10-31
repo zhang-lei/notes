@@ -1,0 +1,76 @@
+git 原理
+
+1. git是一套内容寻址（content-addressable）文件系统。
+
+
+2. git仓库结构
+
+   当git init时 创建repository时 在根目录下生成.git目录
+
+   description  *HEAD   *index  logs  config  hooks  info  *objects  *refs
+
+3. 各个模块说明
+
+   (1)objects目录存储所有数据内容
+
+   objects --对象
+
+   git对象
+
+   git中一个非常重要的概念就是git对象,我们可以把git系统想象成一个强大的key-value存储,
+   每一个对象都对应着一个40位的哈希值.通过这个哈希值我们便可以很容易的取得对象(当然我们可以为这些哈希值取一些有意义的别名,
+   方便我们使用).我们可以把这个哈希值看作指针.而对应的对象就是指针所指向的实体.对象和对象之间还可以通过通过指针进行一些关联的操作. 
+   git对象可分为四种类型:
+
+   blob对象    用来存放文件数据
+   tree对象    对应着目录,tree的内容为blob对象的指针或者其他tree对象的指针
+   commit对象  每一次commit都会产生一个新的commit对象,其包含了一个指向tree对象的指针,指向前一次commit对象的指针,还包含了commit的时间,作者和注释等信息,就相当于为项目做了一次snapshot,通过commit对象我们可以跟踪到前一次commit对象,这样就可以实现log功能了
+   tag对象     一种特殊的commit对象
+
+   objects保存的时候,以40位哈希值的前两位作为子目录的名称,后38位作为对象的文件名 
+   git系统会定期对所有的objects进行打包操作,这样可以减少磁盘占用空间 
+   git中最新版本的都是直接保存的，
+   这是因为大多数时候我们对最新的分支代码更为关注
+
+   $git cat-file -p 40位哈希值  查看文件内容
+
+
+   (2)refs目录存储指向数据（分支）的提交对象的指针  即commit对象指针
+   (3)HEAD文件指向当前分支                          即当前分支tree对象指针
+   (4)index文件保存了暂存区域信息
+
+
+
+4. git文件存储结构和存储原理
+
+			tree
+			/  \
+                     file1 tree
+		       |      / \
+		      blob file2 file3
+                             |     |
+			    blob  blob
+
+   一个目录是一个tree对象  一个file是一个blob对象
+
+   从内部来看，git是简单的key-value数据存储。它允许插入任意类型的内容，并会返回一个键值，通过该键值可以在任何时候再取出该内容
+	
+   ---原理----
+
+   创建修改文件并提交的完整过程
+
+   保存修改了的文件的blob
+   更新索引
+   创建tree对象
+   创建commit对象，这些commit对象指向了顶层tree对象以及先前的commit对象
+   这基本上就是git add和git commit时git进行的工作
+
+   注意: 文件一旦修改添加到索引中 都是生成一个新的拷贝 同时创建新的tree对象(非更新tree对象)
+   
+  
+
+   
+
+   
+
+
