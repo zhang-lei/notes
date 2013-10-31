@@ -1,0 +1,85 @@
+git 常用命令详解
+
+git 命令
+
+   add        Add file contents to the index
+   bisect     Find by binary search the change that introduced a bug
+   branch     List, create, or delete branches
+   checkout   Checkout a branch or paths to the working tree
+   clone      Clone a repository into a new directory
+   commit     Record changes to the repository
+   diff       Show changes between commits, commit and working tree, etc
+   fetch      Download objects and refs from another repository
+   grep       Print lines matching a pattern
+   init       Create an empty git repository or reinitialize an existing one
+   log        Show commit logs
+   merge      Join two or more development histories together
+   mv         Move or rename a file, a directory, or a symlink
+   pull       Fetch from and merge with another repository or a local branch
+   push       Update remote refs along with associated objects
+   rebase     Forward-port local commits to the updated upstream head
+   reset      Reset current HEAD to the specified state
+   rm         Remove files from the working tree and from the index
+   show       Show various types of objects
+   status     Show the working tree status
+   tag        Create, list, delete or verify a tag object signed with GPG
+
+================================================================================
+
+整理关于git常用命令 便于日后查看 
+
+1. 首先配置用户名和邮件名称。该步骤是为了配置github上的邮箱和用户名.
+        git config --global user.name "zhang-lei"
+        git config --global user.email "zhanglei4517@gmail.com"
+
+        以上两条命令就将用户名和密码设置好了.如果不设置 后面commit是不会成功的.
+2. 初始化本地仓库和创建文件 提交代码
+        git init
+        git add .
+        git commit -m
+
+3. 添加到远程仓库
+        git remote add demo https://ip:port/zhang-lei/demo.git
+        git pull demo master  表示获取远程demo master分支.
+        git push demo master  表示发送上送demo master版本
+
+4. 创建分支
+        git branch 查看分支
+        git branch dev   创建dev分支
+        git branch -d dev 删除dev分支
+
+5. 合并分支
+        git merge dev 合并dev分支到当前分支
+        git merge commitId 合并提交时内容到当前分支
+
+6. checkout作用
+        git checkout dev   分支之间跳转
+        git checkout filename  恢复filename
+        git checkout HEAD 恢复HEAD中的内容
+        git checkout filename --cached
+        git checkout filename --staged
+
+7. 比较文件
+        git diff
+        git diff --cached
+        git diff --staged
+        git diff HEAD
+
+
+=================================================================
+使用场景
+
+1. 正常开发
+     
+    某一个功能需要一个人 或几个人完成 
+
+    git branch dev1  #创建一个功能分支 几个人协同 在dev1上开发
+
+    开发结束并测试完成
+
+    git checkout master #回到主分支
+    git branch dev1     #将dev1分支添加到组分支中
+
+                         dev1--------(D)-------merge
+                       /                          \
+   （A）---（B）----（C）-------------------------(E) ------(F)  master
