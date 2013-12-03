@@ -47,6 +47,26 @@ git 命令
         git branch 查看分支
         git branch dev   创建dev分支
         git branch -d dev 删除dev分支
+        
+        //远程分支操作
+        
+        //查看远程分支
+        git branch -r
+ 	
+ 	//查看所有分支
+ 	git branch -a （包含本地分支和远程分支）
+        
+        //创建远程分支(同push)
+        git push origin branchname
+        
+        //删除远程分支
+        git push origin --delete branchname
+        
+        //删除远程tag
+        git push origin --delete tagname
+        
+        //将远程分支checkout到本地 并切换到当前分支（跟踪）
+        git checkout -b localbranchname origin/branchname  
 
 5. 合并分支
         git merge dev 合并dev分支到当前分支
