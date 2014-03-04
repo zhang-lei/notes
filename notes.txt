@@ -42,6 +42,8 @@ git 命令
         git remote add demo https://ip:port/zhang-lei/demo.git
         git pull demo master  表示获取远程demo master分支.
         git push demo master  表示发送上送demo master版本
+        
+        git push demo test:test 将本地test分支 推送到远程指定分支上，如果分支不存在将新建
 
 4. 创建分支
         git branch 查看分支
